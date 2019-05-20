@@ -107,16 +107,19 @@ public class StateService {
 			p2x = p2.getLongitude();
 			
 			
+			//this is based on ray casting algorithm
+			//we start a ray in horizontal direction from the point to right direction and check if the ray
+			//intersects with the edge
 			if( y > Math.min(p1y,p2y) && y <= Math.max(p1y,p2y)) {
-				//Make sure ray starts before maximum vertical bound
+				//check if the ray starts before maximum x coordinate
 				if( x <= Math.max(p1x,p2x)){
-					//Make sure edge isn't horizontal (don't want to divide by 0 for xIntersect).
+					//check if the ray isn't horizontal
 					if(p1y != p2y) {
-						//Find where ray intersects with edge.
+						//find out rays interaction with edge of the polygon
 						double xIntersect = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x;
-						//If edge is vertical (and ray starts before it, as checked above) or ray starts before where it intersects with the edge (xIntersect), then the ray has crossed an edge.
+						//ray will intersect with the edge if it starts before the intersection or if the edge is vertical
 						if(p1x == p2x || x <= xIntersect) {
-							//1 intersection = inside, 2 = outside, 3 = inside, etc.
+							//even no of intersections means point is outside and odd no of intersections means point is inside
 							inside = !inside;
 						}
 					}
